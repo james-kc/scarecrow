@@ -162,5 +162,5 @@ cython_debug/
 #.idea/
 
 # Images
-# images/*
-# !images
+images/*
+!images
