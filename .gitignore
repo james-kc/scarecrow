@@ -163,4 +163,4 @@ cython_debug/
 
 # Images
 # images/*
-# !images/
+# !images
