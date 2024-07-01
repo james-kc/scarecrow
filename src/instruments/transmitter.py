@@ -1,7 +1,7 @@
 import serial
 
 # Replace with the correct serial port name
-serial_port = '/dev/serial0'
+serial_port = '/dev/ttyS0'
 baud_rate = 9600
 
 ser = serial.Serial(serial_port, baud_rate)
