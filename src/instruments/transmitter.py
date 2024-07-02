@@ -16,7 +16,7 @@
 #
 
 import sys
-import src.instruments.sx126x
+import sx126x
 import threading
 import time
 import select
