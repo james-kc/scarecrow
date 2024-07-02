@@ -103,6 +103,7 @@ def main():
         message = f"Message {i}"
         print(f"Sending: {message}")
         send_message(message)
+        time.sleep(0.5)
 
 if __name__ == '__main__':
     main()
