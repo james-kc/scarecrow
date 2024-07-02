@@ -94,8 +94,8 @@ def send_deal():
     print('\x1b[3A',end='\r')
 
 def send_message(message):
-    data = bytes([0>>8]) + bytes([0&0xff]) + bytes([18]) + bytes([0>>8]) + bytes([0&0xff]) + bytes([node.offset_freq]) + message.encode()
-    # data = bytes([255]) + bytes([255]) + bytes([18]) + bytes([255]) + bytes([255]) + bytes([12]) + str(message).encode()
+    # data = bytes([1>>8]) + bytes([1&0xff]) + bytes([18]) + bytes([0>>8]) + bytes([0&0xff]) + bytes([node.offset_freq]) + message.encode()
+    data = bytes([255]) + bytes([255]) + bytes([18]) + bytes([255]) + bytes([255]) + bytes([12]) + str(message).encode()
     node.send(data)
 
 def main():
