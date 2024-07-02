@@ -96,12 +96,13 @@ def send_deal():
     print(" "*200)
     print('\x1b[3A',end='\r')
 
-def send_message():
-    data = bytes([255]) + bytes([255]) + bytes([18]) + bytes([255]) + bytes([255]) + bytes([12]) + "Hello, this is a test!".encode()
+def send_message(message):
+    data = bytes([255]) + bytes([255]) + bytes([18]) + bytes([255]) + bytes([255]) + bytes([12]) + str(message).encode()
     node.send(data)
 
 def main():
-    send_message()
+    for i in range(15):
+        send_message(i)
 
 if __name__ == '__main__':
     main()
