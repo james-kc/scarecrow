@@ -102,10 +102,10 @@ class sx126x:
         self.ser = serial.Serial(serial_num,9600)
         self.ser.flushInput()
 
-#
-# the data format like as following
-# "node address,frequence,payload"
-# "20,868,Hello World"
+    #
+    # the data format like as following
+    # "node address,frequence,payload"
+    # "20,868,Hello World"
     def send(self,data):
         self.ser.write(data)
         # if self.rssi == True:
@@ -176,8 +176,8 @@ class sx126x:
 #        It will print the RSSI value when it receives each message
 #
 
-# node = sx126x(serial_num = "COM8",freq=433,addr=100,power=22,rssi=True)
-node = sx126x(serial_num = "COM8",freq=868,addr=0,power=22,rssi=True)
+# node = sx126x(serial_num = "COM3",freq=433,addr=100,power=22,rssi=True)
+node = sx126x(serial_num = "COM3",freq=868,addr=0,power=22,rssi=True)
 
 def send_deal():
     get_rec = ""
