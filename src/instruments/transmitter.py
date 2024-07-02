@@ -102,7 +102,9 @@ def send_message(message):
 
 def main():
     for i in range(15):
-        send_message(i)
+        message = f"Message {i}"
+        print(f"Sending: {message}")
+        send_message(message)
 
 if __name__ == '__main__':
     main()
