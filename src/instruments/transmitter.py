@@ -107,7 +107,8 @@ def main():
     try:
         while True:
             node.receive()
-    except:
+    except Exception as e:
+        print(f"Exception: {e}")
         node.close_serial()
 
 
