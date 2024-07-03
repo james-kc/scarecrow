@@ -287,3 +287,9 @@ class sx126x:
             # pass
             print("receive rssi value fail")
             # print("receive rssi value fail: ",re_temp)
+
+    def close_serial(self):
+        print("Closing serial port...")
+        self.ser.close()
+        print("Serial port closed.")
+

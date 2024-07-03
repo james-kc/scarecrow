@@ -104,8 +104,11 @@ def main():
     #     send_message(message)
     #     # time.sleep(0.5)
 
-    while True:
-        node.receive()
+    try:
+        while True:
+            node.receive()
+    except:
+        node.close_serial()
 
 
 if __name__ == '__main__':
