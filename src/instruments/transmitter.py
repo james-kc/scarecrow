@@ -55,7 +55,7 @@ from threading import Timer
 node = sx126x.sx126x(
     serial_num="/dev/ttyS0",
     freq=868,
-    addr=65535,
+    addr=0,
     power=22,
     rssi=True,
     air_speed=2400,
