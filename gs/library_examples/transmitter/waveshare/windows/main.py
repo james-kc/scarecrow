@@ -108,8 +108,8 @@ class sx126x:
     # "20,868,Hello World"
     def send(self,data):
         self.ser.write(data)
-        if self.rssi == True:
-            self.get_channel_rssi()
+        # if self.rssi == True:
+            # self.get_channel_rssi()
         time.sleep(0.1)
 
 
