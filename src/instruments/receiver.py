@@ -7,7 +7,7 @@ import time
 
 # Initialize the node
 node = sx126x.sx126x(
-    serial_num="/dev/ttyS0",
+    serial_num="/dev/ttyAMA0",
     freq=868,
     addr=0,
     power=22,
@@ -22,6 +22,10 @@ def main():
             received_data = node.receive()
             if received_data:
                 # Assuming the data format: [receiving address (2 bytes), offset frequency (1 byte), own address (2 bytes), own offset frequency (1 byte), message (remaining bytes)]
+                if len(received_data) < 6:
+                    print("Received data is too short, ignoring.")
+                    continue
+
                 receiving_address = (received_data[0] << 8) + received_data[1]
                 offset_frequency = received_data[2]
                 own_address = (received_data[3] << 8) + received_data[4]
