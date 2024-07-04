@@ -7,7 +7,7 @@ import time
 
 # Initialize the node
 node = sx126x.sx126x(
-    serial_num="/dev/ttyAMA0",
+    serial_num="/dev/ttyS0",
     freq=868,
     addr=0,
     power=22,
