@@ -13,7 +13,7 @@ from threading import Timer
 old_settings = termios.tcgetattr(sys.stdin)
 tty.setcbreak(sys.stdin.fileno())
 
-# The following is to obtain the temperature of the RPi CPU 
+# The following is to obtain the temperature of the RPi CPU
 def get_cpu_temp():
     tempFile = open("/sys/class/thermal/thermal_zone0/temp")
     cpu_temp = tempFile.read()
@@ -31,8 +31,8 @@ def send_deal():
 
     while True:
         rec = sys.stdin.read(1)
-        if rec is not None:
-            if rec == '\x0a': break
+        if rec:
+            if rec == '\n': break
             get_rec += rec
             sys.stdout.write(rec)
             sys.stdout.flush()
@@ -146,7 +146,8 @@ try:
             
         node.receive()
         
-except:
+except Exception as e:
+    print("An error occurred:", e)
     termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
 
 termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
