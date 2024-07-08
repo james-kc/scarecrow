@@ -16,17 +16,14 @@ def image_capture_thread(start_event, stop_event):
                 camera.power_down_camera(picam2)
                 picam2 = None
 
-def sensor_reading_thread(start_event, stop_event):
+def bme280_thread(start_event, stop_event):
     bme280 = None
-    accel = None
 
     while not stop_event.is_set():
         if start_event.is_set():
 
             if not bme280:
                 bme280, baseline = barometer.initialise_bme280()
-            if not accel:
-                sensor = accelerometer.initilise_accelerometer()
 
             relative_altitude = barometer.get_relative_altitude(
                 bme280,
@@ -34,6 +31,17 @@ def sensor_reading_thread(start_event, stop_event):
             )
 
             print(f"Relative Altitude: {relative_altitude:05.2f}")
+            time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
+
+def accel_thread(start_event, stop_event):
+    accel = None
+
+    while not stop_event.is_set():
+        if start_event.is_set():
+
+            if not accel:
+                sensor = accelerometer.initilise_accelerometer()
+
             print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (accelerometer.get_acceleration(sensor)))
             print("Gyro X:%.2f, Y: %.2f, Z: %.2f radians/s" % (accelerometer.get_gyro(sensor)))
             time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
@@ -50,7 +58,10 @@ def main():
             target=image_capture_thread, args=(start_event, stop_event)
         ),
         threading.Thread(
-            target=sensor_reading_thread, args=(start_event, stop_event)
+            target=bme280_thread, args=(start_event, stop_event)
+        ),
+        threading.Thread(
+            target=accel_thread, args=(start_event, stop_event)
         )
     ]
 
