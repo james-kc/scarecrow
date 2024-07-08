@@ -20,6 +20,7 @@ def get_acceleration(sensor):
 def get_gyro(sensor):
     return sensor.gyro
 
+
 def main():
     sensor = initilise_accelerometer()
 

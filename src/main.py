@@ -1,6 +1,6 @@
 import threading
 import time
-from instruments import camera, gps, barometer
+from instruments import camera, gps, barometer, accelerometer
 
 
 def image_capture_thread(start_event, stop_event):
@@ -18,15 +18,24 @@ def image_capture_thread(start_event, stop_event):
 
 def sensor_reading_thread(start_event, stop_event):
     bme280 = None
+    accel = None
+
     while not stop_event.is_set():
         if start_event.is_set():
+
             if not bme280:
                 bme280, baseline = barometer.initialise_bme280()
+            if not accel:
+                sensor = accelerometer.initilise_accelerometer()
+
             relative_altitude = barometer.get_relative_altitude(
                 bme280,
                 baseline
             )
+
             print(f"Relative Altitude: {relative_altitude:05.2f}")
+            print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (accelerometer.get_acceleration(sensor)))
+            print("Gyro X:%.2f, Y: %.2f, Z: %.2f radians/s" % (accelerometer.get_gyro(sensor)))
             time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
 
 def main():
