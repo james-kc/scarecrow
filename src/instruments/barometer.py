@@ -1,3 +1,5 @@
+# Library found here https://github.com/pimoroni/bme280-python
+
 import time
 from smbus2 import SMBus
 from bme280 import BME280
