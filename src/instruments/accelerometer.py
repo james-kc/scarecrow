@@ -21,11 +21,13 @@ def get_gyro(sensor):
     return sensor.gyro
 
 def main():
+    sensor = initilise_accelerometer()
+
     while True:
         # print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (sensor.acceleration))
         # print("Gyro X:%.2f, Y: %.2f, Z: %.2f radians/s" % (sensor.gyro))
-        print(get_acceleration())
-        print(get_gyro())
+        print(get_acceleration(sensor))
+        print(get_gyro(sensor))
         print("")
         time.sleep(0.5)
 
