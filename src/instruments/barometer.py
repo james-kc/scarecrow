@@ -49,9 +49,9 @@ def main():
         # print(f"Relative altitude: {altitude:05.2f} metres")
         print(
             f"Relative altitude: {altitude:05.2f} m\n"
-	    f"Temperature: {temperature:05.2f}°C\n"
-	    f"Pressure: {pressure:05.2f}hPa\n"
-	    f"Humidity: {humidity:05.2f}%\n"
+            f"Temperature: {temperature:05.2f}°C\n"
+            f"Pressure: {pressure:05.2f}hPa\n"
+            f"Humidity: {humidity:05.2f}%\n"
         )
         time.sleep(1)
 

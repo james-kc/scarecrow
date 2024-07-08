@@ -21,8 +21,11 @@ def sensor_reading_thread(start_event, stop_event):
     while not stop_event.is_set():
         if start_event.is_set():
             if not bme280:
-                bme280, baseline = barometer.initialise()
-            relative_altitude = barometer.get_relative_altitude(bme280)
+                bme280, baseline = barometer.initialise_bme280()
+            relative_altitude = barometer.get_relative_altitude(
+                bme280,
+                baseline
+            )
             print(f"Relative Altitude: {relative_altitude:05.2f}")
             time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
 
