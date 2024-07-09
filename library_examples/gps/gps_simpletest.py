@@ -22,7 +22,7 @@ import adafruit_gps
 
 # If using I2C, we'll create an I2C interface to talk to using default pins
 i2c = board.I2C()  # uses board.SCL and board.SDA
-i2c = board.STEMMA_I2C()  # For using the built-in STEMMA QT connector on a microcontroller
+# i2c = board.STEMMA_I2C()  # For using the built-in STEMMA QT connector on a microcontroller
 
 # Create a GPS module instance.
 # gps = adafruit_gps.GPS(uart, debug=False)  # Use UART/pyserial
