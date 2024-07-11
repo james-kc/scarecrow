@@ -1,5 +1,5 @@
 import threading
-import time
+from datetime import datetime
 import csv
 from instruments import camera, gps, barometer, accelerometer, gps
 
@@ -16,7 +16,7 @@ def image_capture_thread(start_event, stop_event):
                 if picam2 is None:
                     picam2 = camera.initialise_camera()
                 image_path = camera.capture_image(picam2)
-                writer.writerow([time.time(), image_path])
+                writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S"), image_path])
                 file.flush()
                 time.sleep(1)  # Capture image every 1 second
             else:
@@ -35,7 +35,7 @@ def barometer_thread(start_event, stop_event):
                 if not barometer_obj:
                     barometer_obj, baseline = barometer.initialise_bme280()
                 relative_altitude = barometer.get_relative_altitude(barometer_obj, baseline)
-                writer.writerow([time.time(), relative_altitude])
+                writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S"), relative_altitude])
                 file.flush()
                 time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
 
@@ -51,7 +51,7 @@ def accel_thread(start_event, stop_event):
                     accel_obj = accelerometer.initialise_accelerometer()
                 accel_data = accelerometer.get_acceleration(accel_obj)
                 gyro_data = accelerometer.get_gyro(accel_obj)
-                writer.writerow([time.time(), *accel_data, *gyro_data])
+                writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S"), *accel_data, *gyro_data])
                 file.flush()
                 time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
 
@@ -66,7 +66,7 @@ def gps_thread(start_event, stop_event):
                 if not gps_obj:
                     gps_obj = gps.initialise_gps()
                 position = gps.get_position(gps_obj)
-                writer.writerow([time.time(), position['latitude'], position['longitude'], position['altitude']])
+                writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S"), position['latitude'], position['longitude'], position['altitude']])
                 file.flush()
                 time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
 

@@ -29,16 +29,20 @@ def get_position(gps):
     if not gps.has_fix:
         # Try again if we don't have a fix yet.
         print("Waiting for fix...")
+        datetime_str = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+    else:
+        datetime_str = "{}/{}/{} {:02}:{:02}:{:02}".format(
+            gps.timestamp_utc.tm_mday,  # struct_time object that holds
+            gps.timestamp_utc.tm_mon,  # Grab parts of the time from the
+            gps.timestamp_utc.tm_year,  # the fix time.  Note you might
+            gps.timestamp_utc.tm_hour,  # not get all data like year, day,
+            gps.timestamp_utc.tm_min,  # month!
+            gps.timestamp_utc.tm_sec,
+        )
 
     gps_data = {
-        'datetime': "{}/{}/{} {:02}:{:02}:{:02}".format(
-                gps.timestamp_utc.tm_mday,  # struct_time object that holds
-                gps.timestamp_utc.tm_mon,  # Grab parts of the time from the
-                gps.timestamp_utc.tm_year,  # the fix time.  Note you might
-                gps.timestamp_utc.tm_hour,  # not get all data like year, day,
-                gps.timestamp_utc.tm_min,  # month!
-                gps.timestamp_utc.tm_sec,
-        ),
+        'datetime': datetime_str,
         'fix': gps.fix_quality,
         'latitude': gps.latitude,
         'longitude': gps.longitude,
