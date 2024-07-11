@@ -1,5 +1,6 @@
 import threading
 from datetime import datetime
+import time
 import os
 import csv
 from instruments import camera, gps, barometer, accelerometer, gps
