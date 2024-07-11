@@ -22,7 +22,7 @@ def image_capture_thread(start_event, stop_event):
                 if picam2 is None:
                     picam2 = camera.initialise_camera()
                 image_path = camera.capture_image(picam2)
-                writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S"), image_path])
+                writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S.%f"), image_path])
                 file.flush()
                 time.sleep(1)  # Capture image every 1 second
             else:
@@ -41,7 +41,7 @@ def barometer_thread(start_event, stop_event):
                 if not barometer_obj:
                     barometer_obj, baseline = barometer.initialise_bme280()
                 relative_altitude = barometer.get_relative_altitude(barometer_obj, baseline)
-                writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S"), relative_altitude])
+                writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S.%f"), relative_altitude])
                 file.flush()
                 time.sleep(0.05)  # Read sensors and transmit data every 0.5 seconds
 
@@ -57,7 +57,7 @@ def accel_thread(start_event, stop_event):
                     accel_obj = accelerometer.initialise_accelerometer()
                 accel_data = accelerometer.get_acceleration(accel_obj)
                 gyro_data = accelerometer.get_gyro(accel_obj)
-                writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S"), *accel_data, *gyro_data])
+                writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S.%f"), *accel_data, *gyro_data])
                 file.flush()
                 time.sleep(0.05)  # Read sensors and transmit data every 0.5 seconds
 
@@ -65,31 +65,46 @@ def gps_thread(start_event, stop_event):
     gps_obj = None
     with open(f"{SESSION_DATA_PATH}/gps.csv", mode='a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(['timestamp', 'latitude', 'longitude', 'altitude'])
+        writer.writerow([
+            'thread_datetime',
+            'datetime',
+            'fix',
+            'latitude',
+            'longitude',
+            'latitude_degrees',
+            'latitude_minutes',
+            'longitude_degrees',
+            'longitude_minutes',
+            'satellites',
+            'altitude_m',
+            'speed_knots',
+            'track_angle_deg',
+            'horizontal_dilution',
+            'height_geoid',
+        ])
 
         while not stop_event.is_set():
             if start_event.is_set():
                 if not gps_obj:
                     gps_obj = gps.initialise_gps()
                 position = gps.get_position(gps_obj)
-                writer.writerow(
-                    [
-                        position['datetime'],
-                        position['fix'],
-                        position['latitude'],
-                        position['longitude'],
-                        position['latitude_degrees'],
-                        position['latitude_minutes'],
-                        position['longitude_degrees'],
-                        position['longitude_minutes'],
-                        position['satellites'],
-                        position['altitude_m'],
-                        position['speed_knots'],
-                        position['track_angle_deg'],
-                        position['horizontal_dilution'],
-                        position['height_geoid'],
-                    ]
-                )
+                writer.writerow([
+                    datetime.now().strftime("%d/%m/%Y %H:%M:%S.%f"),
+                    position['datetime'],
+                    position['fix'],
+                    position['latitude'],
+                    position['longitude'],
+                    position['latitude_degrees'],
+                    position['latitude_minutes'],
+                    position['longitude_degrees'],
+                    position['longitude_minutes'],
+                    position['satellites'],
+                    position['altitude_m'],
+                    position['speed_knots'],
+                    position['track_angle_deg'],
+                    position['horizontal_dilution'],
+                    position['height_geoid'],
+                ])
                 file.flush()
                 time.sleep(0.05)  # Read sensors and transmit data every 0.5 seconds
 
