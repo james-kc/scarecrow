@@ -28,7 +28,6 @@ def get_position(gps):
 
     if not gps.has_fix:
         # Try again if we don't have a fix yet.
-        print("Waiting for fix...")
         datetime_str = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
     else:
@@ -58,7 +57,7 @@ def get_position(gps):
         'height_geoid': gps.height_geoid
     }
 
-    return gps_data
+    return gps_data, gps.has_fix
 
 def main():
     gps = initialise_gps()

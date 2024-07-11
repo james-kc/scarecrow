@@ -20,6 +20,8 @@ def initialise_bme280():
         pressure = bme280.get_pressure()
         baseline_values.append(pressure)
         time.sleep(1)
+    
+    print("Altimeter baseline acquired.")
 
     # Calculate average baseline
     # baseline = sum(baseline_values[:-25]) / len(baseline_values[:-25])
