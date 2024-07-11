@@ -8,7 +8,7 @@ import time
 import board
 from adafruit_lsm6ds.lsm6ds3 import LSM6DS3
 
-def initilise_accelerometer():
+def initialise_accelerometer():
     """Function used to initialise the accelerometer module."""
 
     i2c = board.I2C()
@@ -23,7 +23,7 @@ def get_gyro(sensor):
 
 
 def main():
-    sensor = initilise_accelerometer()
+    sensor = initialise_accelerometer()
 
     while True:
         # print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (sensor.acceleration))

@@ -1,6 +1,6 @@
 import threading
 import time
-from instruments import camera, gps, barometer, accelerometer
+from instruments import camera, gps, barometer, accelerometer, gps
 
 
 def image_capture_thread(start_event, stop_event):
@@ -16,17 +16,17 @@ def image_capture_thread(start_event, stop_event):
                 camera.power_down_camera(picam2)
                 picam2 = None
 
-def bme280_thread(start_event, stop_event):
-    bme280 = None
+def barometer_thread(start_event, stop_event):
+    barometer_obj = None
 
     while not stop_event.is_set():
         if start_event.is_set():
 
-            if not bme280:
-                bme280, baseline = barometer.initialise_bme280()
+            if not barometer_obj:
+                barometer_obj, baseline = barometer.initialise_bme280()
 
             relative_altitude = barometer.get_relative_altitude(
-                bme280,
+                barometer_obj,
                 baseline
             )
 
@@ -34,16 +34,28 @@ def bme280_thread(start_event, stop_event):
             time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
 
 def accel_thread(start_event, stop_event):
-    accel = None
+    accel_obj = None
 
     while not stop_event.is_set():
         if start_event.is_set():
 
             if not accel:
-                sensor = accelerometer.initilise_accelerometer()
+                accel_obj = accelerometer.initialise_accelerometer()
 
-            print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (accelerometer.get_acceleration(sensor)))
-            print("Gyro X:%.2f, Y: %.2f, Z: %.2f radians/s" % (accelerometer.get_gyro(sensor)))
+            print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (accelerometer.get_acceleration(accel_obj)))
+            print("Gyro X:%.2f, Y: %.2f, Z: %.2f radians/s" % (accelerometer.get_gyro(accel_obj)))
+            time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
+
+def gps_thread(start_event, stop_event):
+    gps_obj = None
+
+    while not stop_event.is_set():
+        if start_event.is_set():
+
+            if not gps_obj:
+                sensor = gps_obj.initialise_gps()
+
+            pprint(gps.get_position(gps_obj))
             time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
 
 def main():
@@ -58,10 +70,13 @@ def main():
             target=image_capture_thread, args=(start_event, stop_event)
         ),
         threading.Thread(
-            target=bme280_thread, args=(start_event, stop_event)
+            target=barometer_thread, args=(start_event, stop_event)
         ),
         threading.Thread(
             target=accel_thread, args=(start_event, stop_event)
+        ),
+        threading.Thread(
+            target=gps_thread, args=(start_event, stop_event)
         )
     ]
 
