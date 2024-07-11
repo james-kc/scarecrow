@@ -72,7 +72,24 @@ def gps_thread(start_event, stop_event):
                 if not gps_obj:
                     gps_obj = gps.initialise_gps()
                 position = gps.get_position(gps_obj)
-                writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S"), position['latitude'], position['longitude'], position['altitude']])
+                writer.writerow(
+                    [
+                        position['datetime'],
+                        position['fix'],
+                        position['latitude'],
+                        position['longitude'],
+                        position['latitude_degrees'],
+                        position['latitude_minutes'],
+                        position['longitude_degrees'],
+                        position['longitude_minutes'],
+                        position['satellites'],
+                        position['altitude_m'],
+                        position['speed_knots'],
+                        position['track_angle_deg'],
+                        position['horizontal_dilution'],
+                        position['height_geoid'],
+                    ]
+                )
                 file.flush()
                 time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
 
