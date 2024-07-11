@@ -1,13 +1,18 @@
 import threading
 from datetime import datetime
+import os
 import csv
 from instruments import camera, gps, barometer, accelerometer, gps
 
 DATA_PATH = 'data'
+# Begin by creating session folder in /data
+current_datetime = datetime.now().strftime('%Y%m%dT%H%M%S')
+SESSION_DATA_PATH = f"{DATA_PATH}/{current_datetime}"
+os.makedirs(SESSION_DATA_PATH, exist_ok=True)
 
 def image_capture_thread(start_event, stop_event):
     picam2 = None
-    with open(f"{DATA_PATH}/image_capture.csv", mode='a', newline='') as file:
+    with open(f"{SESSION_DATA_PATH}/image_capture.csv", mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['timestamp', 'image_path'])
         
@@ -26,7 +31,7 @@ def image_capture_thread(start_event, stop_event):
 
 def barometer_thread(start_event, stop_event):
     barometer_obj = None
-    with open(f"{DATA_PATH}/barometer.csv", mode='a', newline='') as file:
+    with open(f"{SESSION_DATA_PATH}/barometer.csv", mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['timestamp', 'relative_altitude'])
 
@@ -41,7 +46,7 @@ def barometer_thread(start_event, stop_event):
 
 def accel_thread(start_event, stop_event):
     accel_obj = None
-    with open(f"{DATA_PATH}/accelerometer.csv", mode='a', newline='') as file:
+    with open(f"{SESSION_DATA_PATH}/accelerometer.csv", mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['timestamp', 'accel_x', 'accel_y', 'accel_z', 'gyro_x', 'gyro_y', 'gyro_z'])
 
@@ -57,7 +62,7 @@ def accel_thread(start_event, stop_event):
 
 def gps_thread(start_event, stop_event):
     gps_obj = None
-    with open(f"{DATA_PATH}/gps.csv", mode='a', newline='') as file:
+    with open(f"{SESSION_DATA_PATH}/gps.csv", mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['timestamp', 'latitude', 'longitude', 'altitude'])
 
