@@ -17,6 +17,7 @@ def capture_image(picam2):
     filename = f"{IMG_DIR}/{datetime.now().strftime('%Y-%m-%dT%H:%M:%S')}.png"
     picam2.capture_file(filename)
     print(f"Image captured: {filename}")
+    return filename
 
 def power_down_camera(picam2):
     """Power down the camera."""
