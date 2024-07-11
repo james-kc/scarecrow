@@ -43,7 +43,7 @@ def barometer_thread(start_event, stop_event):
                 relative_altitude = barometer.get_relative_altitude(barometer_obj, baseline)
                 writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S"), relative_altitude])
                 file.flush()
-                time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
+                time.sleep(0.05)  # Read sensors and transmit data every 0.5 seconds
 
 def accel_thread(start_event, stop_event):
     accel_obj = None
@@ -59,7 +59,7 @@ def accel_thread(start_event, stop_event):
                 gyro_data = accelerometer.get_gyro(accel_obj)
                 writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S"), *accel_data, *gyro_data])
                 file.flush()
-                time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
+                time.sleep(0.05)  # Read sensors and transmit data every 0.5 seconds
 
 def gps_thread(start_event, stop_event):
     gps_obj = None
@@ -91,7 +91,7 @@ def gps_thread(start_event, stop_event):
                     ]
                 )
                 file.flush()
-                time.sleep(0.5)  # Read sensors and transmit data every 0.5 seconds
+                time.sleep(0.05)  # Read sensors and transmit data every 0.5 seconds
 
 def main():
     # Events to control the threads
