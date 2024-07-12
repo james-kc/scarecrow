@@ -16,7 +16,7 @@ def image_capture_thread(start_event, stop_event):
     with open(f"{SESSION_DATA_PATH}/image_capture.csv", mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['timestamp', 'image_path'])
-        
+
         while not stop_event.is_set():
             if start_event.is_set():
                 if picam2 is None:
@@ -24,7 +24,10 @@ def image_capture_thread(start_event, stop_event):
                 image_path = camera.capture_image(picam2)
                 writer.writerow([datetime.now().strftime("%d/%m/%Y %H:%M:%S.%f"), image_path])
                 file.flush()
-                time.sleep(1)  # Capture image every 1 second
+
+                # with 1sec sleep, images were captured in 4sec intervals
+                # sleep is removed to improve image capture rate
+                # time.sleep(1)  # Capture image every 1 second
             else:
                 if picam2 is not None:
                     camera.power_down_camera(picam2)
