@@ -12,13 +12,8 @@ def make_map(df):
     # Convert 'thread_datetime' to datetime
     df['thread_datetime'] = pd.to_datetime(df['thread_datetime'], format='%d/%m/%Y %H:%M:%S.%f')
 
-    # Define the time range
-    start_time = pd.to_datetime('12/07/2024 19:44:00', format='%d/%m/%Y %H:%M:%S')
-    end_time = pd.to_datetime('12/07/2024 19:46:42', format='%d/%m/%Y %H:%M:%S')
-
     # Filter the DataFrame to only include rows within the time range
-    df_filtered = df[(df['thread_datetime'] >= start_time) & (df['thread_datetime'] <= end_time)]
-    # df_filtered = df
+    df_filtered = st.data_trimmer(df, 'thread_datetime', 'flight')
 
     # Extract the relevant latitude and longitude columns, filtering out rows with NaN values
     coordinates = df_filtered[['latitude', 'longitude']].dropna().values
@@ -59,10 +54,11 @@ def main():
     # Read the data into a pandas DataFrame
     df = pd.read_csv(DATA_DIR)
 
+    make_map(df)
     # altitude_plot(df)
     # speed_plot(df)
-    speed_altitude_plot(df)
-    plt.show()
+    # speed_altitude_plot(df)
+    # plt.show()
     
 
 

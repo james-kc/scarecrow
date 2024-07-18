@@ -6,10 +6,10 @@ import scarecrow_tools as st
 DATA_DIR = 'post_flight/data/accelerometer.csv'
 
 def accel_plot(df: pd.DataFrame):
-    st.multi_line_plotter(df, 'timestamp', ['accel_x', 'accel_y', 'accel_z'], 'ascent')
+    st.multi_line_plotter(df, 'timestamp', ['accel_x', 'accel_y', 'accel_z'], 'flight')
 
 def gyro_plot(df: pd.DataFrame):
-    st.multi_line_plotter(df, 'timestamp', ['gyro_x', 'gyro_y', 'gyro_z'], 'ascent')
+    st.multi_line_plotter(df, 'timestamp', ['gyro_x', 'gyro_y', 'gyro_z'], 'flight')
 
 def gyro_plot_integrated(df: pd.DataFrame, trim: str = 'ascent'):
 
@@ -36,8 +36,8 @@ def gyro_plot_integrated(df: pd.DataFrame, trim: str = 'ascent'):
 def main():
     df = pd.read_csv(DATA_DIR)
     # accel_plot(df)
-    # gyro_plot(df)
-    gyro_plot_integrated(df)
+    gyro_plot(df)
+    # gyro_plot_integrated(df, 'flight')
     plt.show()
 
 if __name__ == '__main__':
