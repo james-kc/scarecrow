@@ -36,7 +36,7 @@ def plotter(
 
     df_filtered = data_trimmer(df, datetime, trim)
 
-    plt.plot(df_filtered[datetime], df_filtered[y], 'k')
+    plt.plot(df_filtered[datetime], df_filtered[y], 'kx-')
     plt.xlabel(datetime)
     plt.ylabel(y)
 

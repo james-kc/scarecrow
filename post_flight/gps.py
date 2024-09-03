@@ -13,7 +13,7 @@ def make_map(df):
     df['thread_datetime'] = pd.to_datetime(df['thread_datetime'], format='%d/%m/%Y %H:%M:%S.%f')
 
     # Filter the DataFrame to only include rows within the time range
-    df_filtered = st.data_trimmer(df, 'thread_datetime', 'flight')
+    df_filtered = st.data_trimmer(df, 'thread_datetime', 'all')
 
     # Extract the relevant latitude and longitude columns, filtering out rows with NaN values
     coordinates = df_filtered[['latitude', 'longitude']].dropna().values

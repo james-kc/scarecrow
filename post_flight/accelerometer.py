@@ -36,8 +36,8 @@ def gyro_plot_integrated(df: pd.DataFrame, trim: str = 'ascent'):
 def main():
     df = pd.read_csv(DATA_DIR)
     # accel_plot(df)
-    gyro_plot(df)
-    # gyro_plot_integrated(df, 'flight')
+    # gyro_plot(df)
+    gyro_plot_integrated(df, 'ascent')
     plt.show()
 
 if __name__ == '__main__':
